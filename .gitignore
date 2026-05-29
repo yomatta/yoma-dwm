@@ -1,0 +1,2 @@
+# Ignore config.h so that the compiled code is not transferred between installs.
+config.h
