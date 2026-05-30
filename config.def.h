@@ -34,9 +34,11 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	/* class          instance    title       tags mask     isfloating   monitor */
+	{ "Gimp",            NULL,       NULL,       0,            1,           -1 },
+	{ "Firefox",         NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "yoma-tui-float",  NULL,       NULL,       0,            1,           -1 },
+	// { NULL,              NULL,       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -72,16 +74,24 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const char *rofi[] = { "rofi", "-show", "drun", "-theme", "~/.config/rofi/config.rasi", "-show-emojis", NULL };
 static const char *firefox[] = { "firefox", NULL };
 static const char *yazi[] = { "alacritty", "-e", "yazi", NULL };
-// static const char *btop[] = { "alacritty", "-e", "btop", NULL };
-// static const char *impala[] = { "alacritty", "-e", "impala", NULL };
+static const char *volumedown[] = { "firefox", NULL };
+// static const char *volumeup[] = { "firefox", NULL };
+/* custom floating tuis */ 
+static const char *impala[] = { "st", "-c", "yoma-tui-float", "-g", "100x40+500+100", "-e", "impala", NULL };
+static const char *wiremix[] = { "st", "-c", "yoma-tui-float", "-g", "100x40+500+100", "-e", "wiremix", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_b,      spawn,          {.v = firefox } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = yazi } },
+	{ MODKEY,                       XK_t,      spawn,          {.v = impala } },
 	{ MODKEY,                       XK_space,  spawn,          {.v = rofi } },
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	// { MODKEY|ShiftMask,             XK_0xffc8, spawn,          {.v = volumedown } },
+	// { MODKEY|ShiftMask,             XK_0xffc9, spawn,          {.v = volumeup } },
+	{ MODKEY|ShiftMask,             XK_F11,    spawn,          {.v = volumedown } },
+	{ MODKEY,                       XK_F12,    spawn,          {.v = wiremix } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_l,      focusstack,     {.i = +1 } },
@@ -94,9 +104,9 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_F1,      setlayout,      {.v = &layouts[0]} }, //tile
+	{ MODKEY,                       XK_F2,      setlayout,      {.v = &layouts[2]} }, //monocle
+	{ MODKEY,                       XK_F3,      setlayout,      {.v = &layouts[1]} }, //float
 	// { MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
